@@ -1,5 +1,5 @@
 /*
- * Excel Sample n∞ 1
+ * Excel Sample n› 1
  * Author: Fernando Yurisich <fernando.yurisich@gmail.com>
  * Licensed under The Code Project Open License (CPOL) 1.02
  * See <http://www.codeproject.com/info/cpol10.aspx>
@@ -125,7 +125,6 @@ FUNCTION ToExcel( oGrid )
          FOR nCol := 1 to Len( oGrid:aHeaders )
             oSheet:Cells( nLin, nCol ):Value := oGrid:Cell( nRow, nCol )
          NEXT
-         nRow ++
          nLin ++
       NEXT
 

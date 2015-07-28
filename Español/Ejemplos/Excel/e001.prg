@@ -1,5 +1,5 @@
 /*
- * Ejemplo Excel n∞ 1
+ * Ejemplo Excel n› 1
  * Autor: Fernando Yurisich <fernando.yurisich@gmail.com>
  * Licenciado bajo The Code Project Open License (CPOL) 1.02
  * Ver <http://www.codeproject.com/info/cpol10.aspx>
@@ -110,7 +110,6 @@ FUNCTION ToExcel( oGrid )
       FOR nCol := 1 to Len( oGrid:aHeaders )
          oSheet:Cells( nLin, nCol ):Value := oGrid:Cell( nRow, nCol )
       NEXT
-      nRow ++
       nLin ++
    NEXT
 

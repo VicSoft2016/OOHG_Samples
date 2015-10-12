@@ -20,16 +20,18 @@ FUNCTION Main
 
    REQUEST DBFCDX, DBFFPT
 
+   OpenTables()
+
    DEFINE WINDOW MAIN OBJ oWnd ;
       TITLE "Combobox from a DBF" ;
       WIDTH 350 ;
-      HEIGHT 200 ;
-      ON INIT OpenTables()
+      HEIGHT 200
 
       @ 10,10 COMBOBOX Combo ;
          WIDTH 200 ;
          ITEMSOURCE 'test->last' ;
          VALUESOURCE 'test->code' ;
+         VALUE 3 ;
          ON CHANGE oWnd:Label:Value := ;
                       "The combo's value is: " + autotype(oWnd:Combo:Value)
 

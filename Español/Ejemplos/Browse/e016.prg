@@ -32,15 +32,22 @@ FUNCTION Main
       MINWIDTH 500 MINHEIGHT 380 ;
       TITLE 'Browse con cláusula DEFAULTVALUES' ;
       MAIN ;
+      ON INIT oBrowse:SetFocus() ;
       ON RELEASE TareasFinales()
 
       DEFINE STATUSBAR
         STATUSITEM "Use Alt-A para agregar un registro y vea que sucede"
       END STATUSBAR
 
+      @ oForm:ClientHeight + oForm:Statusbar:ClientHeightUsed - 40, 10 LABEL Label_1 ;
+         VALUE "Suma:"
+
+      @ oForm:ClientHeight + oForm:Statusbar:ClientHeightUsed - 40, 70 TEXTBOX Text_1 ;
+         OBJ oSuma WIDTH 100 NUMERIC READONLY
+
       @ 10, 10 BROWSE Browse_1 OBJ oBrowse ;
          WIDTH oForm:ClientWidth - 20 ;
-         HEIGHT oForm:ClientHeight + oForm:Statusbar:ClientHeightUsed - 20 ;
+         HEIGHT oForm:ClientHeight + oForm:Statusbar:ClientHeightUsed - 60 ;
          HEADERS { 'Código', ;
                    'Nombre', ;
                    'Apellido', ;
@@ -78,8 +85,9 @@ FUNCTION Main
          APPEND ;
          ENABLEALTA ;
          EDIT INPLACE ;
+         ON EDITCELLEND ProcesarEdit() ;
          ON APPEND ProcesarAppend() ;
-         ON EDITCELL ProcesarEdit() ;
+         ON EDITCELL Totalizar() ;
          DEFAULTVALUES { 10, "Nombre vacío", "Apellido vacío", date(), 1, Nil }
 
          /*
@@ -100,7 +108,7 @@ RETURN Nil
 FUNCTION ProcesarEdit
 
    /*
-    * ON EDITCELL es el primer evento que se dispara después del fin de la
+    * ON EDITCELLEND es el primer evento que se dispara después del fin de la
     * edición. Se dispara para cada columna editada.
     * Ud. puede acceder a la información de la celda utilizando estas variables:
     * _OOHG_ThisItemRowIndex
@@ -112,6 +120,7 @@ FUNCTION ProcesarEdit
     * _OOHG_ThisItemCellValue
     * Cualquier cambio en estas variables es ignorado.
     */
+    AutoMsgBox( "ProcesarEdit" )
 
     IF oBrowse:lAppendMode
        /*
@@ -134,7 +143,7 @@ FUNCTION ProcesarEdit
         * el valor de cualquier campo dentro del registro.
         * Tenga cuidado de no desbloquear la base de datos si el control fue
         * definido con la cláusula LOCK.
-        * Note que cualquier cambio que se haga ene l puntero de la base de
+        * Note que cualquier cambio que se haga en el puntero de la base de
         * datos será respetado y no se restaurará el registro original antes
         * de grabar.
         * Cualquier cambio en las celdas de la fila de edición será descartado.
@@ -154,7 +163,7 @@ RETURN Nil
 FUNCTION ProcesarAppend
 
    /*
-    * Después que finaliza el evento ON EDITCELL para la primera columna
+    * Después que finaliza el evento ON EDITCELLEND para la primera columna
     * editable, el nuevo registro es agregado y el valor recién editado
     * así como los restantes valores por defecto son grabados en él.
     *
@@ -162,8 +171,34 @@ FUNCTION ProcesarAppend
     *
     * En este momento Ud. puede grabar cualquier valor en el registro.
     */
+    AutoMsgBox( "ProcesarAppend" )
     Test->Birth := ctod("01/01/1901")
 
+RETURN Nil
+
+//--------------------------------------------------------------------------//
+FUNCTION Totalizar
+   LOCAL nRec, nSuma
+
+    AutoMsgBox( "Totalizar" )
+   /*
+    * El evento ON EDITCELL se dispara luego que el valor recién editado es
+    * grabado en el registro. Se dispara para cada columna editada.
+    * Ud. puede acceder a la información de la celda utilizando estas variables:
+    * _OOHG_ThisItemRowIndex
+    * _OOHG_ThisItemColIndex
+    * _OOHG_ThisItemCellRow
+    * _OOHG_ThisItemCellCol
+    * _OOHG_ThisItemCellWidth
+    * _OOHG_ThisItemCellHeight
+    * _OOHG_ThisItemCellValue
+    * Cualquier cambio en estas variables es ignorado.
+    */
+   nRec := Test->(RecNo())
+   nSuma := 0
+   Test->( DBEVAL( {|| nSuma += Test->Code } ) )
+   Test->( dbGoTo( nRec ) )
+   oSuma:Value := nSuma
 RETURN Nil
 
 //--------------------------------------------------------------------------//

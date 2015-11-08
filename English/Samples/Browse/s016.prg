@@ -31,15 +31,22 @@ FUNCTION Main
       MINWIDTH 500 MINHEIGHT 380 ;
       TITLE 'Browse with DEFAULTVALUES clause' ;
       MAIN ;
+      ON INIT oBrowse:SetFocus() ;
       ON RELEASE CleanUp()
 
       DEFINE STATUSBAR
         STATUSITEM "OOHG Power - Use Alt-A to append a new record and see what happens"
       END STATUSBAR
 
+      @ oForm:ClientHeight + oForm:Statusbar:ClientHeightUsed - 40, 10 LABEL Label_1 ;
+         VALUE "Total:"
+
+      @ oForm:ClientHeight + oForm:Statusbar:ClientHeightUsed - 40, 70 TEXTBOX Text_1 ;
+         OBJ oSuma WIDTH 100 NUMERIC READONLY
+
       @ 10, 10 BROWSE Browse_1 OBJ oBrowse ;
          WIDTH oForm:ClientWidth - 20 ;
-         HEIGHT oForm:ClientHeight + oForm:Statusbar:ClientHeightUsed - 20 ;
+         HEIGHT oForm:ClientHeight + oForm:Statusbar:ClientHeightUsed - 60 ;
          HEADERS { 'Code', ;
                    'First Name', ;
                    'Last Name', ;
@@ -77,8 +84,9 @@ FUNCTION Main
          APPEND ;
          ENABLEALTA ;
          EDIT INPLACE ;
+         ON EDITCELLEND ProcessEdit() ;
          ON APPEND ProcessAppend() ;
-         ON EDITCELL ProcessEdit() ;
+         ON EDITCELL Total() ;
          DEFAULTVALUES { 10, "Empty First", "Empty Last", date(), 1, Nil }
 
          /*
@@ -99,7 +107,7 @@ RETURN Nil
 FUNCTION ProcessEdit
 
    /*
-    * ON EDITCELL is the first event fired after the end of the edition.
+    * ON EDITCELLEND is the first event fired after the end of the edition.
     * It's fired for each edited column.
     * You can access the cell info using this vars:
     * _OOHG_ThisItemRowIndex
@@ -111,6 +119,7 @@ FUNCTION ProcessEdit
     * _OOHG_ThisItemCellValue
     * Any change to this vars is ignored.
     */
+    AutoMsgBox( "ProcessEdit" )
 
     IF oBrowse:lAppendMode
        /*
@@ -151,7 +160,7 @@ RETURN Nil
 FUNCTION ProcessAppend
 
    /*
-    * After ON EDITCELL for the first editable column has ended, the new
+    * After ON EDITCELLEND for the first editable column has ended, the new
     * record is appended and the just edited value and any other default
     * values are placed into it.
     *
@@ -159,8 +168,34 @@ FUNCTION ProcessAppend
     *
     * At this point you can place any value into the record.
     */
+    AutoMsgBox( "ProcessAppend" )
     Test->Birth := ctod("01/01/1901")
 
+RETURN Nil
+
+//--------------------------------------------------------------------------//
+FUNCTION Total
+   LOCAL nRec, nSum
+
+    AutoMsgBox( "Total" )
+   /*
+    * ON EDITCELL event is fired after the just edited value is
+    * placed into the record. It's fired for each edited column.
+    * You can access the cell info using this vars:
+    * _OOHG_ThisItemRowIndex
+    * _OOHG_ThisItemColIndex
+    * _OOHG_ThisItemCellRow
+    * _OOHG_ThisItemCellCol
+    * _OOHG_ThisItemCellWidth
+    * _OOHG_ThisItemCellHeight
+    * _OOHG_ThisItemCellValue
+    * Any change in this variables is ignored.
+    */
+   nRec := Test->(RecNo())
+   nSum := 0
+   Test->( DBEVAL( {|| nSum += Test->Code } ) )
+   Test->( dbGoTo( nRec ) )
+   oSuma:Value := nSum
 RETURN Nil
 
 //--------------------------------------------------------------------------//

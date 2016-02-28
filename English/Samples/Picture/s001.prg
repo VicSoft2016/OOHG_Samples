@@ -1,5 +1,5 @@
 /*
- * Picture Sample n° 1
+ * Picture Sample # 1
  *
  * Author: Fernando Yurisich <fernando.yurisich@gmail.com>
  * Licensed under The Code Project Open License (CPOL) 1.02
@@ -33,6 +33,7 @@ FUNCTION Main
                                                    {'gif Files','*.gif'}, ;
                                                    {'ico Files','*.ico'} } , ;
                                                  'Select Image' )
+            ITEM 'Clear' ACTION Form_1.pct_Image.Picture := ''
          END POPUP
       END MENU
 

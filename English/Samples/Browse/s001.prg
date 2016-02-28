@@ -1,5 +1,5 @@
 /*
- * Browse Sample n° 1
+ * Browse Sample # 1
  * Author: Fernando Yurisich <fernando.yurisich@gmail.com>
  * Licensed under The Code Project Open License (CPOL) 1.02
  * See <http://www.codeproject.com/info/cpol10.aspx>
@@ -21,7 +21,7 @@
 
 Function Main
 
-   LOCAL Form_1, Browse_1
+   LOCAL oForm, oBrowse
 
    REQUEST DBFCDX, DBFFPT
 
@@ -29,20 +29,22 @@ Function Main
    SET DELETED ON
    SET BROWSESYNC ON
 
-   DEFINE WINDOW Form_1 OBJ Form_1 ;
+   OpenTables()
+
+   DEFINE WINDOW Form_1 OBJ oForm ;
       AT 0,0 ;
       CLIENTAREA ;
       WIDTH 500 HEIGHT 380 ;
       MINWIDTH 500 MINHEIGHT 380 ;
       TITLE 'ooHG Demo - Identify clicked column in Browse' ;
       MAIN NOMAXIMIZE ;
-      ON INIT {|| OnPaint(Form_1), OpenTables()} ;
       ON RELEASE CleanUp() ;
-      ON SIZE OnPaint(Form_1)
+      ON SIZE ( oBrowse:Width  := oForm:ClientWidth - 40, ;
+                oBrowse:Height := oForm:ClientHeight - 40 )
 
-      @ 10,10 BROWSE Browse_1 OBJ Browse_1 ;
-         WIDTH 610 ;
-         HEIGHT 300 ;
+      @ 20,20 BROWSE Browse_1 OBJ oBrowse ;
+         WIDTH oForm:ClientWidth - 40 ;
+         HEIGHT oForm:ClientHeight - 40 ;
          HEADERS { 'Code', ;
                    'First Name', ;
                    'Last Name', ;
@@ -127,20 +129,6 @@ FUNCTION OpenTables()
    INDEX ON code TO code
 
    GO TOP
-
-   Form_1.Browse_1.Value := RECNO()
-
-RETURN Nil
-
-//----------------------------------------------------------------------------
-FUNCTION OnPaint (Ventana)
-
-  WITH OBJECT Ventana
-    :Browse_1:Row      := ;
-    :Browse_1:Col      := 20
-    :Browse_1:Width    := :ClientWidth - :Browse_1:Col * 2
-    :Browse_1:Height   := :ClientHeight - :Browse_1:Row * 2
-  END WITH
 
 RETURN Nil
 

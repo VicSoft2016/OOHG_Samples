@@ -1,5 +1,5 @@
 /*
- * Ejemplo SplitBox n° 1
+ * Ejemplo SplitBox # 1
  * Autor: Fernando Yurisich <fernando.yurisich@gmail.com>
  * Licenciado bajo The Code Project Open License (CPOL) 1.02
  * Ver <http://www.codeproject.com/info/cpol10.aspx>

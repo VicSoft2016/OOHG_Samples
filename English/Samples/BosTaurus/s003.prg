@@ -4,9 +4,7 @@
  * Licensed under The Code Project Open License (CPOL) 1.02
  * See <http://www.codeproject.com/info/cpol10.aspx>
  *
- * This sample shows how to use the ON PAINT and ON SIZE
- * events to fill the form's background with a color gradient
- * and show some text.
+ * This sample shows how to manipulate a bitmap.
  *
  * Based on a sample from Bos Taurus library for HMG
  * created by Dr. CLAUDIO SOTO (from Uruguay) <srvet@adinet.com.uy>

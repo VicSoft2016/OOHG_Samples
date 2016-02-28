@@ -18,13 +18,14 @@
  */
 
 #include "oohg.ch"
+#include "i_windefs.ch"
 
 FUNCTION Main()
 
    DEFINE WINDOW Form_1 ;
       AT 0,0 ;
       WIDTH 320 ;
-      HEIGHT 600 ;
+      HEIGHT 620 ;
       MAIN ;
       TITLE "ooHG - Button Demo" ;
       BACKCOLOR YELLOW
@@ -58,7 +59,7 @@ FUNCTION Main()
          WIDTH 140 ;
          HEIGHT 60 ;
          TOOLTIP "Text and image (on the top) button." ;
-         IMAGEMARGIN {10, 0, 0, 0}
+         IMAGEMARGIN {6, 0, 0, 0}
 
       @ 220,80 BUTTON btn_4 ;
          CAPTION "On the bottom" ;
@@ -68,16 +69,16 @@ FUNCTION Main()
          WIDTH 140 ;
          HEIGHT 60 ;
          TOOLTIP "Text and image (on the bottom) button." ;
-         IMAGEMARGIN {0, 0, 10, 0}
+         IMAGEMARGIN {0, 0, 6, 0}
 
-      @ 290,80 BUTTON btn_5 ;
+      @ 290,80 BUTTON btn_5 OBJ oBut ;
          CAPTION "Really Long Multiline Text Only Button"  ;
          MULTILINE ;
-         ACTION MsgInfo('btn_5') ;
+         ACTION ChangeTextAlignment() ;
          WIDTH 140 ;
          HEIGHT 60 ;
-         TOOLTIP "Multiline text only button." ;
-         IMAGEMARGIN {150, 150, 150, 150}
+         TEXTALIGN DT_LEFT + DT_TOP ;
+         TOOLTIP "Click me to change text alignment."
 
       @ 360,80 BUTTON btn_6 ;
          THEMED ;
@@ -89,6 +90,7 @@ FUNCTION Main()
          TOOLTIP "Image (centered) only button, themed."
 
       @ 430,80 BUTTON btn_7 ;
+         NOTHEME ;
          PICTURE "Button6.bmp"  ;
          ACTION MsgInfo('btn_7') ;
          CENTER ;
@@ -113,6 +115,24 @@ FUNCTION Main()
    ACTIVATE WINDOW Form_1
 
 RETURN NIL
+
+
+PROCEDURE ChangeTextAlignment
+   STATIC nTextAlignH := DT_LEFT
+   STATIC nTextAlignV := DT_TOP
+
+   nTextAlignH ++
+   IF nTextAlignH > 2
+      nTextAlignH := 0
+      nTextAlignV += 4
+      IF nTextAlignV > 8
+         nTextAlignV := 0
+      ENDIF
+   ENDIF
+
+  oBut:nTextAlign := nTextAlignH + nTextAlignV
+  oBut:RePaint()
+RETURN
 
 /*
  * EOF

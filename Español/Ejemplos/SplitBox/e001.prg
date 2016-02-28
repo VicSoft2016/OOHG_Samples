@@ -37,7 +37,7 @@ Function Main()
             BUTTON btn_About   CAPTION "Acerca de"       ACTION Action() AUTOSIZE
          END TOOLBAR
 
-         @ 30,0 COMBOBOX cmb_Address ;
+         COMBOBOX cmb_Address ;
             FONT "Arial" SIZE 9 ;
             ITEMS {"http://www.oohg.org", ;
                    "http://oohg.wikia.com", ;

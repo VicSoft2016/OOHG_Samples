@@ -1,5 +1,5 @@
 /*
- * Ejemplo Picture n° 1
+ * Ejemplo Picture # 1
  * Autor: Fernando Yurisich <fernando.yurisich@gmail.com>
  * Licenciado bajo The Code Project Open License (CPOL) 1.02
  * Ver <http://www.codeproject.com/info/cpol10.aspx>
@@ -37,6 +37,7 @@ FUNCTION Main
                                   {'Archivos gif','*.gif'}, ;
                                   {'Archivos ico','*.ico'} } , ;
                                 'Seleccionar Imagen' )
+            ITEM 'Borrar' ACTION Form_1.pct_Image.Picture := ''
          END POPUP
       END MENU
 

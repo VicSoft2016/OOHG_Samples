@@ -1,5 +1,5 @@
 /*
- * Ejemplo Image n° 1
+ * Ejemplo Image # 1
  * Autor: Fernando Yurisich <fernando.yurisich@gmail.com>
  * Licenciado bajo The Code Project Open License (CPOL) 1.02
  * Ver <http://www.codeproject.com/info/cpol10.aspx>
@@ -32,11 +32,12 @@ FUNCTION Main
       DEFINE MAIN MENU
          POPUP 'Archivo'
             ITEM 'Seleccionar Imagen' ;
-            ACTION Form_1.Image_1.Picture := ;
+               ACTION Form_1.Image_1.Picture := ;
                       Getfile ( { {'Archivos jpg','*.jpg'}, ;
                                   {'Archivos gif','*.gif'}, ;
                                   {'Archivos ico','*.ico'} } , ;
                                 'Seleccionar Imagen' )
+            ITEM 'Borrar' ACTION Form_1.Image_1.Picture := ''
          END POPUP
       END MENU
 

@@ -8,10 +8,9 @@
  *    Arrastrar y soltar entre dos controles TREE (uno con
  *    ITEMDIDS y el otro sin ITEMIDS).
  *    Utilizar las cláusulas AutoID y ON DROP.
- *    Utilizar los métodos FirstVisible, GetChildren,
- *    IsItemVisible, ItemCount, ItemHeight, ItemVisible,
- *    LastVisible, Valor NextVisible, SelectionID y
- *    VisibleCount.
+ *    Utilizar los métodos FirstVisible, GetChildren, IsItemVisible,
+ *    ItemCount, ItemHeight, ItemVisible, LastVisible,
+ *    NextVisible, SelectionID, Value y VisibleCount.
  *    Obtener los elementos visibles y los elementos que
  *    actualmente se muestran en la ventana del control.
  *    Obtener los números de referencia de los elementos
@@ -51,8 +50,8 @@ FUNCTION Main()
          SELBOLD ;
          INDENT 25 ;
          ITEMIDS ;
-         VALUE "NODE1" ;
-         ON DROP {|uNewItem| Tree1_Drop(oTree1, uNewItem)}
+         VALUE "NODO1" ;
+         ON DROP {|uNewItem| Tree1_Drop( oTree1, uNewItem )}
 
          FOR i := 1 TO 4
             NODE 'T1 Item ' + LTRIM(STR(i)) ID "NODO" + LTRIM(STR(i))
@@ -74,7 +73,7 @@ FUNCTION Main()
       END TREE
 
       FOR i := 1 TO 4
-         Form_1.Tree_1.Expand("NODE" + LTRIM(STR(i)))
+         Form_1.Tree_1.Expand("NODO" + LTRIM(STR(i)))
       NEXT
 
       oTree1:ItemVisible(oTree1:Value)
@@ -130,7 +129,7 @@ FUNCTION Main()
 
       @ 250,460 BUTTON Button_4 ;
          CAPTION 'Mostrar Item' ;
-         ACTION AutoMsgBox( oTree:ItemVisible(InputBox('Item To Show'))) ;
+         ACTION MostrarItem( oTree ) ;
          WIDTH 140
 
       @ 280,10 BUTTON Button_5 ;
@@ -150,13 +149,12 @@ FUNCTION Main()
 
       @ 280,460 BUTTON Button_8 ;
          CAPTION 'Moverse al Item' ;
-         ACTION AutoMsgBox(oTree:Value(InputBox('Move To Item'))) ;
+         ACTION MoverItem( oTree ) ;
          WIDTH 140
 
       @ 310,10 BUTTON Button_9 ;
          CAPTION 'Está en la Ventana' ;
-         ACTION AutoMsgBox(;
-                oTree:IsItemVisible(InputBox('Item To Check'))) ;
+         ACTION EstaVisible( oTree ) ;
          WIDTH 140
 
       @ 310,160 BUTTON Button_10 ;
@@ -173,7 +171,7 @@ FUNCTION Main()
 
       @ 340,10 BUTTON Button_12 ;
          CAPTION 'Hijos' ;
-         ACTION AutoMsgBox(oTree:GetChildren(oTree:Value)) ;
+         ACTION MostrarHijos( oTree ) ;
          WIDTH 140
 
       @ 345,400 LABEL Lbl_1 ;
@@ -200,18 +198,25 @@ RETURN NIL
  * Items que son visibles ahora o que pueden ser visibles
  * cuando se navegue por el control.
  */
-FUNCTION VisibleItems(oTree)
-   LOCAL i, Item
+FUNCTION VisibleItems( oTree )
+   LOCAL i, Item, lFound
 
    i := 1
    Item := oTree:FirstVisible()
+   lFound := .F.
 
-   DO WHILE Item # NIL
+   DO WHILE Item # IF( oTRee:ItemIds, NIL, 0)
       AutoMsgBox(Item)
+
       i ++
+      lFound := .T.
 
       Item := oTree:NextVisible(Item)
    ENDDO
+
+   IF ! lFound
+      MsgBox("No hay items visibles !!!")
+   ENDIF
 
 RETURN NIL
 
@@ -219,31 +224,80 @@ RETURN NIL
  * El segundo parámetro en IsItemVisible indica si el método
  * considerará visible a un item parcialmente mostrado.
  */
-FUNCTION ItemsInWindow(oTree)
-   LOCAL i, Item, Partial
+FUNCTION ItemsInWindow( oTree )
+   LOCAL i, Item, Partial, lFound
 
    i := 1
    Item := oTree:FirstVisible()
+   lFound := .F.
 
-   DO WHILE Item # NIL .and. oTree:IsItemVisible(Item, .F.)
+   DO WHILE Item #  IF( oTRee:ItemIds, NIL, 0) .AND. ;
+            oTree:IsItemVisible(Item, .F.)
       AutoMsgBox({Item, IF(oTree:IsItemVisible(Item, .T.), ;
                            "completo", "parcial")})
       i ++
+      lFound := .T.
 
       Item := oTree:NextVisible(Item)
    ENDDO
 
+   IF ! lFound
+      MsgBox("Tree's window shows no item !!!")
+   ENDIF
+
 RETURN NIL
 
+FUNCTION MostrarItem( oTree )
+   LOCAL uItem
+
+   uItem := InputBox('Item To Show')
+
+   IF oTree:IsItemValid( uItem )
+      AutoMsgBox( oTree:ItemVisible( uItem ) )
+   ELSE
+      MsgStop( "Invalid item !!!" )
+   ENDIF
+
+RETURN NIL
+
+/* En controles TREE sin la claúsula ITEMID se puede usar
+ * oTree:SelectionID := Nil para borrar el ID del item.
+ *
+ * Hacer eso en controles con la claúsula ITEMID generará un error.
+ *
+ * Note que oTree:SelectionID() devuelve el ID del item seleccionado,
+ * mientras que oTree:SelectionID(Nil) tratará de borrar el mismo.
+ */
 FUNCTION ChangeID(oTree)
    LOCAL newID
 
-   newID := InputBox('Cambiar ID de ' + oTree:SelectionID() + ' a:')
+   // se asumen IDs de tipo Character
+   newID := InputBox('Cambiar ID de ' + ;
+                     AutoType( oTree:SelectionID() ) + ' a:')
+   // para IDs numéricos habilite la siguiente línea y adapte la validacion
+   // newID := VAL(newID)
+   // para IDs mixtos desarrollo y use su propia función de captura
 
    IF EMPTY(newID)
       MsgStop("ID no puede quedar vacío !!!")
    ELSE
-      oTree:SelectionID(newID)
+      AutoMsgBox(oTree:SelectionID(newID))
+   ENDIF
+
+RETURN NIL
+
+FUNCTION EstaVisible( oTree )
+   LOCAL uItem
+
+   uItem := InputBox('Item a verificar')
+   IF ! oTree:ItemIds
+      uItem := VAL( uItem )
+   ENDIF
+
+   IF oTree:IsItemValid( uItem )
+      AutoMsgBox( oTree:IsItemVisible( uItem ) )
+   ELSE
+      MsgStop( "Item inválido !!!" )
    ENDIF
 
 RETURN NIL
@@ -267,6 +321,32 @@ FUNCTION Tree2_Drop(oTree, uNewItem)
 
    MsgBox("Nuevo Item: " + LTRIM(STR(uNewItem)) + hb_OsNewLine() + ;
           "Hijos: " + AutoType(oTree:GetChildren(uNewItem)))
+
+RETURN NIL
+
+FUNCTION MoverItem( oTree )
+   LOCAL uItem
+
+   uItem := InputBox('Item a mover')
+   IF ! oTree:ItemIds
+      uItem := VAL( uItem )
+   ENDIF
+
+   IF oTree:IsItemValid( uItem )
+      AutoMsgBox( oTree:Value( uItem ) )
+   ELSE
+      MsgStop( "Item inválido !!!" )
+   ENDIF
+
+RETURN NIL
+
+FUNCTION MostrarHijos( oTree )
+
+   IF Empty(oTree:Value)
+      MsgBox( "El control no tiene items o ninguno está seleccionado !!!" )
+   ELSE
+      AutoMsgBox(oTree:GetChildren(oTree:Value))
+   ENDIF
 
 RETURN NIL
 

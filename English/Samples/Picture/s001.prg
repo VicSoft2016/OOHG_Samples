@@ -9,7 +9,8 @@
  * Ciro Vargas C. <cvc@oohg.org>
  *
  * This sample shows how to get the width and height of
- * an image using an IMAGE control.
+ * an image using an IMAGE control, and how to rotate
+ * the loaded image.
  *
  * Visit us at https://github.com/fyurisich/OOHG_Samples or at
  * http://oohg.wikia.com/wiki/Object_Oriented_Harbour_GUI_Wiki
@@ -18,6 +19,8 @@
 #include "oohg.ch"
 
 FUNCTION Main
+
+   LOCAL nDegrees := 0
 
    DEFINE WINDOW Form_1 ;
       AT 0,0 ;
@@ -28,12 +31,15 @@ FUNCTION Main
 
       DEFINE MAIN MENU
          POPUP 'File'
-            ITEM 'Select Image' ACTION Form_1.pct_Image.Picture := ;
+            ITEM 'Select Image' ACTION oPict:Picture := ;
                                        Getfile ( { {'jpg Files','*.jpg'}, ;
                                                    {'gif Files','*.gif'}, ;
                                                    {'ico Files','*.ico'} } , ;
                                                  'Select Image' )
-            ITEM 'Clear' ACTION Form_1.pct_Image.Picture := ''
+            ITEM 'Clear' ACTION oPict:Picture := ''
+            ITEM 'Rotate' ACTION ( nDegrees := if( nDegrees < 270, ;
+                                                   nDegrees + 90, 0 ), ;
+                                   oPict:Rotate( nDegrees ) )
          END POPUP
       END MENU
 

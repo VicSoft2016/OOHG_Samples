@@ -8,7 +8,8 @@
  * por Ciro Vargas C. <cvc@oohg.org>
  *
  * Este ejemplo muestra como obtener el ancho y alto de
- * una imagen utilizando un control PICTURE.
+ * una imagen, y como rotar la misma, utilizando un
+ * control PICTURE.
  *
  * Visítenos en https://github.com/fyurisich/OOHG_Samples o en
  * http://oohg.wikia.com/wiki/Object_Oriented_Harbour_GUI_Wiki
@@ -17,6 +18,8 @@
 #include "oohg.ch"
 
 FUNCTION Main
+
+   LOCAL nGrados := 0
 
    DEFINE WINDOW Form_1 ;
       AT 0,0 ;
@@ -32,12 +35,14 @@ FUNCTION Main
       DEFINE MAIN MENU
          POPUP 'Archivo'
             ITEM 'Seleccionar Imagen' ;
-            ACTION Form_1.Image_1.Picture := ;
-                      Getfile ( { {'Archivos jpg','*.jpg'}, ;
-                                  {'Archivos gif','*.gif'}, ;
-                                  {'Archivos ico','*.ico'} } , ;
-                                'Seleccionar Imagen' )
-            ITEM 'Borrar' ACTION Form_1.pct_Image.Picture := ''
+               ACTION oPict:Picture := Getfile ( { {'Archivos jpg','*.jpg'}, ;
+                                                   {'Archivos gif','*.gif'}, ;
+                                                   {'Archivos ico','*.ico'} } , ;
+                                                 'Elegir Imagen' )
+            ITEM 'Borrar' ACTION oPict:Picture := ''
+            ITEM 'Rotar' ACTION ( nGrados := if( nGrados < 270, ;
+                                                 nGrados + 90, 0 ), ;
+                                  oPict:Rotate( nGrados ) )
          END POPUP
       END MENU
 
@@ -45,9 +50,9 @@ FUNCTION Main
          OBJ oPict ;
          IMAGESIZE ;
          ACTION AutoMsgBox( "Alto: " + ;
-                            AutoType( oImage:nHeight ) + ;
+                            AutoType( oPict:nHeight ) + ;
                             " Ancho: " + ;
-                            AutoType( oImage:nWidth ) )
+                            AutoType( oPict:nWidth ) )
 
      ON KEY ESCAPE ACTION Form_1.Release()
    END WINDOW

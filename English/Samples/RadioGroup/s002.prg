@@ -280,11 +280,11 @@ FUNCTION Main
                "BACKGROUND paint the control's background using a brush derived from another control's client area."
 
       @ 500, 700 BUTTON btn_Change OBJ oBut CAPTION "Use BackImage" WIDTH 150 ;
-         ACTION {|| Eval( If( nBack == 1, ;
-                              {|| oForm1:BackColor := NIL, oForm1:BackImage := "fondo.bmp", oBut:Caption := "No BackColor nor BackImage", nBack := 2 }, ;
-                              If( nBack == 2, ;
-                                  {|| oForm1:BackColor := NIL, oForm1:BackImage := NIL, oBut:Caption := "Use BackColor", nBack := 3 }, ;
-                                  {|| oForm1:BackColor := PINK, oForm1:BackImage := NIL, oBut:Caption := "Use BackImage", nBack := 1 } ) ) ) }
+         ACTION { || Eval( If( nBack == 1, ;
+                               { || oForm1:BackColor := NIL, oForm1:BackImage := "fondo.bmp", oBut:Caption := "No BackColor nor BackImage", nBack := 2 }, ;
+                               If( nBack == 2, ;
+                                   { || oForm1:BackColor := NIL, oForm1:BackImage := NIL, oBut:Caption := "Use BackColor", nBack := 3 }, ;
+                                   { || oForm1:BackColor := PINK, oForm1:BackImage := NIL, oBut:Caption := "Use BackImage", nBack := 1 } ) ) ) }
 
       ON KEY ESCAPE ACTION oForm1:Release()
    END WINDOW

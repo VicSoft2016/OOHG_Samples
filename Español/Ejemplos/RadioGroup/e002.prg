@@ -4,8 +4,8 @@
  * Licenciado bajo The Code Project Open License (CPOL) 1.02
  * Ver <http://www.codeproject.com/info/cpol10.aspx>
  *
- * Este ejemplo es un caso de prueba para las cláusulas
- * THEMED, NOTHEME, BACKGROUND y TRANSPARENT del control
+ * Este ejemplo es un caso de prueba para las cláusulas THEMED,
+ * NOTHEME, BACKCOLOR, BACKGROUND y TRANSPARENT del control
  * RadioGroup.
  *
  * Visítenos en https://github.com/fyurisich/OOHG_Samples o en

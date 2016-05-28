@@ -4,8 +4,8 @@
  * Licensed under The Code Project Open License (CPOL) 1.02
  * See <http://www.codeproject.com/info/cpol10.aspx>
  *
- * This sample is a test case for THEMED, NOTHEME, BACKGROUND
- * and TRANSPARENT clauses of a RadioGroup control.
+ * This sample is a test case for THEMED, NOTHEME, BACKGROUND,
+ * BACKCOLOR and TRANSPARENT clauses of a RadioGroup control.
  *
  * Visit us at https://github.com/fyurisich/OOHG_Samples or at
  * http://oohg.wikia.com/wiki/Object_Oriented_Harbour_GUI_Wiki

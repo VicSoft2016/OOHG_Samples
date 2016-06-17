@@ -17,7 +17,8 @@ FUNCTION Main
 
    DEFINE WINDOW Form_1 ;
       AT 0,0 ;
-      WIDTH 640 HEIGHT 480 ;
+      WIDTH 640 ;
+      HEIGHT 480 ;
       TITLE 'ooHg - Checkbox with transparent background in tab control' ;
       MAIN
 
@@ -44,11 +45,11 @@ FUNCTION Main
 
       END TAB
 
+      ON KEY ESCAPE ACTION ThisWindow.Release()
    END WINDOW
 
-   Form_1.Center
-
-   Form_1.Activate
+   CENTER WINDOW Form_1
+   ACTIVATE WINDOW Form_1
 
 RETURN Nil
 

@@ -61,7 +61,8 @@ FUNCTION Main
          SPACING 24 ;
          THEMED ;
          BACKGROUND oForm1 ;
-         BACKCOLOR RED
+         BACKCOLOR RED ;
+         LEFTJUSTIFY
       oR12:aOptions[ 2 ]:BackColor := BLUE
 
       @ 10, 230 LABEL lbl_131 WIDTH 100 HEIGHT 15 TRANSPARENT VALUE "THEMED"
@@ -241,7 +242,8 @@ FUNCTION Main
          WIDTH 80 ;
          SPACING 24 ;
          TRANSPARENT ;
-         NOTHEME
+         NOTHEME ;
+         LEFTALIGN
       oR26:aOptions[ 2 ]:BackColor := BLUE
 
       @ 210, 670 LABEL lbl_271 WIDTH 100 HEIGHT 15 TRANSPARENT VALUE "NOTHEME"
@@ -279,7 +281,7 @@ FUNCTION Main
                "If neither THEMED nor NOTHEME are present then THEMED is assumed if app is themed or NOTHEME otherwise." + hb_OsNewLine() + ;
                "BACKGROUND paint the control's background using a brush derived from another control's client area."
 
-      @ 500, 700 BUTTON btn_Change OBJ oBut CAPTION "Use BackImage" WIDTH 150 ;
+      @ 500, 700 BUTTON btn_Change OBJ oBut CAPTION "Use BackImage" WIDTH 170 ;
          ACTION { || Eval( If( nBack == 1, ;
                                { || oForm1:BackColor := NIL, oForm1:BackImage := "fondo.bmp", oBut:Caption := "No BackColor nor BackImage", nBack := 2 }, ;
                                If( nBack == 2, ;

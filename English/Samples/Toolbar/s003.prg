@@ -4,7 +4,7 @@
  * Licensed under The Code Project Open License (CPOL) 1.02
  * See <http://www.codeproject.com/info/cpol10.aspx>
  *
- * This sample shows how add and remove buttons from a
+ * This sample shows how to add and remove buttons from a
  * toolbar at runtime.
  *
  * Visit us at https://github.com/fyurisich/OOHG_Samples or at

@@ -22,7 +22,7 @@ FUNCTION Main()
       HEIGHT 400 ;
       CLIENTAREA ;
       MAIN ;
-      TITLE "Checkbox con fondo transparente"
+      TITLE "oohg - Checkbox con fondo transparente"
 
       @ 00, 00 IMAGE img_1 ;
          PICTURE "fondo.jpg" ;

@@ -18,9 +18,9 @@ FUNCTION Main
 
     DEFINE WINDOW Form1 ;
       AT 0,0 ;
-      WIDTH 408 ;
+      WIDTH 448 ;
       HEIGHT 176 ;
-      TITLE 'ooHg - Three state and leftalign checkbox demo' ;
+      TITLE 'oohg - Three state and leftalign CheckBox demo' ;
       MAIN ;
       NOSIZE
 
@@ -36,21 +36,21 @@ FUNCTION Main
 
       @ 30,30 CHECKBOX Chk1 ;
          CAPTION 'Chk1 LeftAlign' ;
-         WIDTH 100 ;
+         WIDTH 120 ;
          HEIGHT 28 ;
          LEFTALIGN
 
       @ 30,200 CHECKBOX Chk2 ;
          OBJ Chk2 ;
          CAPTION 'Chk2 Three State' ;
-         WIDTH 100 ;
+         WIDTH 120 ;
          HEIGHT 28 ;
          THREESTATE
 
       DEFINE CHECKBOX Chk3
          ROW 60
          COL 30
-         WIDTH 100
+         WIDTH 120
          HEIGHT 28
          CAPTION 'Chk3 AltSyntax'
          VALUE .T.
@@ -60,6 +60,8 @@ FUNCTION Main
       DEFINE CHECKBOX Chk4
          ROW 60
          COL 200
+         WIDTH 120
+         HEIGHT 28
          CAPTION 'Chk4 AltSyntax'
          VALUE .T.
          TOOLTIP 'Chk4 AltSyntax'
@@ -67,42 +69,42 @@ FUNCTION Main
          THREESTATE .T.
       END CHECKBOX
 
+      ON KEY ESCAPE ACTION ThisWindow.Release()
    END WINDOW
 
    CENTER WINDOW Form1
-
    ACTIVATE WINDOW Form1
 
-Return Nil
+RETURN Nil
 
 
-Function SetChkState( nState )
+FUNCTION SetChkState( nState )
 
-   do case
-   case nState == 0                 // UNCHECKED
+   DO case
+   CASE nState == 0                 // UNCHECKED
       Form1.Chk2.Value := .F.
-   case nState == 1                 // CHECKED
+   CASE nState == 1                 // CHECKED
       Form1.Chk2.Value := .T.
-   otherwise                        // INDETERMINATE
-      Form1.Chk2.Value := NIL
-   endcase
+   OTHERWISE                        // INDETERMINATE
+      Form1.Chk2.Value := Nil
+   ENDCASE
 
-Return Nil
+RETURN Nil
 
 
-Function ShowState()
-   Local ret := Form1.Chk4.Value
+FUNCTION ShowState()
+   LOCAL ret := Form1.Chk4.Value
 
-   do case
-   case ret == Nil
+   DO CASE
+   CASE ret == Nil
       MsgInfo('Chk4 status is INDETERMINATE')
-   case ret == .t.
+   CASE ret == .t.
       MsgInfo('Chk4 status is CHECKED')
-   otherwise
+   OTHERWISE
       MsgInfo('Chk4 status is UNCHECKED')
-   endcase
+   ENDCASE
 
-Return Nil
+RETURN Nil
 
 /*
  * EOF

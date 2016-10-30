@@ -19,7 +19,7 @@ FUNCTION Main
       AT 0,0 ;
       WIDTH 640 ;
       HEIGHT 480 ;
-      TITLE 'ooHg - Checkbox with transparent background in tab control' ;
+      TITLE 'ooHg - CheckBox with transparent background in tab control' ;
       MAIN
 
       DEFINE TAB Tab_1 ;

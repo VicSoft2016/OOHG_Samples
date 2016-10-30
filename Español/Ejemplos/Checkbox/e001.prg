@@ -20,7 +20,7 @@ FUNCTION Main
       AT 0,0 ;
       WIDTH 640 ;
       HEIGHT 480 ;
-      TITLE 'ooHg - Checkbox con fondo transparente dentro de un Tab' ;
+      TITLE 'ooHg - CheckBox con fondo transparente dentro de un Tab' ;
       MAIN
 
       DEFINE TAB Tab_1 ;
@@ -37,6 +37,7 @@ FUNCTION Main
                WIDTH 280
                VALUE .F.
                CAPTION 'CheckBox con Fondo Transparente'
+               FONTCOLOR BLUE
                THREESTATE .T.
                LEFTALIGN .T.
             END CHECKBOX

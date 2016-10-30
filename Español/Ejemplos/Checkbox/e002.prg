@@ -35,23 +35,23 @@ FUNCTION Main
 
       @ 30,30 CHECKBOX Chk1 ;
          CAPTION 'Chk1 Alin. Izquierda' ;
-         WIDTH 100 ;
+         WIDTH 150 ;
          HEIGHT 28 ;
          LEFTALIGN
 
       @ 30,200 CHECKBOX Chk2 ;
          OBJ Chk2 ;
          CAPTION 'Chk2 Triestado' ;
-         WIDTH 100 ;
+         WIDTH 150 ;
          HEIGHT 28 ;
          THREESTATE
 
       DEFINE CHECKBOX Chk3
          ROW 60
          COL 30
-         WIDTH 100
+         WIDTH 150
          HEIGHT 28
-         CAPTION 'Chk3 Sintaxis Alt.'
+         CAPTION 'Chk3 Sintaxis Alternativa'
          VALUE .T.
          LEFTALIGN .T.
        END CHECKBOX
@@ -59,49 +59,51 @@ FUNCTION Main
       DEFINE CHECKBOX Chk4
          ROW 60
          COL 200
-         CAPTION 'Chk4 Sintaxis Alt.'
+         WIDTH 150
+         HEIGHT 28
+         CAPTION 'Chk4 Sintaxis Alternativa'
          VALUE .T.
          TOOLTIP 'Chk4 Sintaxis Alternativa'
          ONCHANGE ShowState()
          THREESTATE .T.
       END CHECKBOX
 
+      ON KEY ESCAPE ACTION ThisWindow.Release()
    END WINDOW
 
    CENTER WINDOW Form1
-
    ACTIVATE WINDOW Form1
 
-Return Nil
+RETURN Nil
 
 
-Function SetChkState( nState )
+FUNCTION SetChkState( nState )
 
-   do case
-   case nState == 0                 // DESMARCADO
+   DO CASE
+   CASE nState == 0                 // DESMARCADO
       Form1.Chk2.Value := .F.
-   case nState == 1                 // MARCADO
+   CASE nState == 1                 // MARCADO
       Form1.Chk2.Value := .T.
-   otherwise                        // INDETERMINADO
-      Form1.Chk2.Value := NIL
-   endcase
+   OTHERWISE                        // INDETERMINADO
+      Form1.Chk2.Value := Nil
+   ENDCASE
 
-Return Nil
+RETURN Nil
 
 
-Function ShowState()
-   Local ret := Form1.Chk4.Value
+FUNCTION ShowState()
+   LOCAL ret := Form1.Chk4.Value
 
-   do case
-   case ret == Nil
+   DO CASE
+   CASE ret == Nil
       MsgInfo('El estado de Chk4 es INDETERMINADO')
-   case ret == .t.
+   CASE ret == .t.
       MsgInfo('El estado de Chk4 es MARCADO')
-   otherwise
+   OTHERWISE
       MsgInfo('El estado de Chk4 es DESMARCADO')
-   endcase
+   ENDCASE
 
-Return Nil
+RETURN Nil
 
 /*
  * EOF

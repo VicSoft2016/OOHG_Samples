@@ -29,11 +29,17 @@ FUNCTION Main()
          WIDTH 450 HEIGHT 400 ;
          OBJ oImg
 
-      @ 20,20 RADIOGROUP rdg_1 ;
-         OPTIONS { 'Uno', 'Dos', 'Tres', 'Cuatro' } ;
-         WIDTH 80 ;
-         SPACING 24 ;
+      DEFINE CHECKBOX ChkBox
+         ROW 70
+         COL 10
+         WIDTH 280
+         VALUE .F.
+         CAPTION 'CheckBox con Fondo Transparente'
+         FONTCOLOR BLUE
+         THREESTATE .T.
+         LEFTALIGN .T.
          BACKGROUND oImg
+      END CHECKBOX
 
       ON KEY ESCAPE ACTION Form_1.Release
    END WINDOW
